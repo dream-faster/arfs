@@ -284,7 +284,7 @@ class CollinearityThreshold(SelectorMixin, BaseEstimator):
         self,
         threshold=0.80,
         method="association",
-        n_jobs=-1,
+        n_jobs=1,
         nom_nom_assoc="theil",
         num_num_assoc="spearman",
         nom_num_assoc="correlation_ratio",

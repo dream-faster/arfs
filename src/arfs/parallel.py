@@ -14,7 +14,7 @@ from multiprocessing import cpu_count
 from itertools import chain
 
 
-def parallel_matrix_entries(func, df, comb_list, sample_weight=None, n_jobs=-1):
+def parallel_matrix_entries(func, df, comb_list, sample_weight=None, n_jobs=1):
     """parallel_matrix_entries applies a function to each chunk of
     combinaison of columns of the dataframe, distributed by cores.
     This is similar to https://github.com/smazzanti/mrmr/mrmr/pandas.py
@@ -54,7 +54,7 @@ def parallel_matrix_entries(func, df, comb_list, sample_weight=None, n_jobs=-1):
     return pd.concat(list(chain(*lst)), ignore_index=True)
 
 
-def parallel_df(func, df, series, sample_weight=None, n_jobs=-1):
+def parallel_df(func, df, series, sample_weight=None, n_jobs=1):
     """parallel_df apply a function to each column of the dataframe, distributed by cores.
     This is similar to https://github.com/smazzanti/mrmr/mrmr/pandas.py
 

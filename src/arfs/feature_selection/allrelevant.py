@@ -1285,7 +1285,7 @@ def _get_perm_imp(estimator, X, y, sample_weight, cat_feature=None):
         estimator, X, y, sample_weight=sample_weight, cat_feature=cat_feature
     )
     perm_imp = permutation_importance(
-        model, X_tt, y_tt, n_repeats=5, random_state=42, n_jobs=-1
+        model, X_tt, y_tt, n_repeats=5, random_state=42, n_jobs=1
     )
     imp = perm_imp.importances_mean.ravel()
     return imp

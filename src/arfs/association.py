@@ -160,7 +160,7 @@ def weighted_theils_u(x, y, sample_weight=None, as_frame=False):
         return u
 
 
-def theils_u_matrix(X, sample_weight=None, n_jobs=-1, handle_na="drop"):
+def theils_u_matrix(X, sample_weight=None, n_jobs=1, handle_na="drop"):
     """theils_u_matrix theils_u_matrix computes the weighted Theil's U statistic for
     categorical-categorical association. This is an asymmetric coefficient: U(x,y) != U(y,x)
     U(x, y) means the uncertainty of x given y: value is on the range of [0,1] -
@@ -214,14 +214,14 @@ def theils_u_matrix(X, sample_weight=None, n_jobs=-1, handle_na="drop"):
             df=X,
             comb_list=comb_list,
             sample_weight=sample_weight,
-            n_jobs=-1,
+            n_jobs=1,
         )
         return lst
     else:
         return None
 
 
-def theils_u_series(X, target, sample_weight=None, n_jobs=-1, handle_na="drop"):
+def theils_u_series(X, target, sample_weight=None, n_jobs=1, handle_na="drop"):
     """theils_u_series computes the weighted Theil's U statistic for
     categorical-categorical association. This is an asymmetric coefficient: U(x,y) != U(y,x)
     U(x, y) means the uncertainty of x given y: value is on the range of [0,1] -
@@ -321,7 +321,7 @@ def cramer_v(x, y, sample_weight=None, as_frame=False):
         return v
 
 
-def cramer_v_matrix(X, sample_weight=None, n_jobs=-1, handle_na="drop"):
+def cramer_v_matrix(X, sample_weight=None, n_jobs=1, handle_na="drop"):
     """cramer_v_matrix computes the weighted Cramer's V statistic for
     categorical-categorical association. This is a symmetric coefficient: V(x,y) = V(y,x)
 
@@ -376,7 +376,7 @@ def cramer_v_matrix(X, sample_weight=None, n_jobs=-1, handle_na="drop"):
         return None
 
 
-def cramer_v_series(X, target, sample_weight=None, n_jobs=-1, handle_na="drop"):
+def cramer_v_series(X, target, sample_weight=None, n_jobs=1, handle_na="drop"):
     """cramer_v_series computes the weighted Cramer's V statistic for
     categorical-categorical association. This is a symmetric coefficient: V(x,y) = V(y,x)
 
@@ -538,7 +538,7 @@ def correlation_ratio(x, y, sample_weight=None, as_frame=False):
         return _weighted_correlation_ratio(*args)[0]
 
 
-def correlation_ratio_matrix(X, sample_weight=None, n_jobs=-1, handle_na="drop"):
+def correlation_ratio_matrix(X, sample_weight=None, n_jobs=1, handle_na="drop"):
     """correlation_ratio_matrix computes the weighted Correlation Ratio for
     categorical-numerical association. This is a symmetric coefficient: CR(x,y) = CR(y,x)
 
@@ -589,7 +589,7 @@ def correlation_ratio_matrix(X, sample_weight=None, n_jobs=-1, handle_na="drop")
             df=X,
             comb_list=comb_list,
             sample_weight=sample_weight,
-            n_jobs=-1,
+            n_jobs=1,
         )
         return lst
     else:
@@ -597,7 +597,7 @@ def correlation_ratio_matrix(X, sample_weight=None, n_jobs=-1, handle_na="drop")
 
 
 def correlation_ratio_series(
-    X, target, sample_weight=None, n_jobs=-1, handle_na="drop"
+    X, target, sample_weight=None, n_jobs=1, handle_na="drop"
 ):
     """correlation_ratio_series computes the weighted correlation ration for
     categorical-numerical association. This is a symmetric coefficient: CR(x,y) = CR(y,x)
@@ -795,7 +795,7 @@ def weighted_corr(x, y, sample_weight=None, as_frame=False, method="pearson"):
 
 
 def wcorr_series(
-    X, target, sample_weight=None, n_jobs=-1, handle_na="drop", method="pearson"
+    X, target, sample_weight=None, n_jobs=1, handle_na="drop", method="pearson"
 ):
     """wcorr_series computes the weighted correlation coefficient (Pearson or Spearman) for
     continuous-continuous association. This is an symmetric coefficient: corr(x,y) = corr(y,x)
@@ -850,7 +850,7 @@ def wcorr_series(
         return None
 
 
-def wcorr_matrix(X, sample_weight=None, n_jobs=-1, handle_na="drop", method="pearson"):
+def wcorr_matrix(X, sample_weight=None, n_jobs=1, handle_na="drop", method="pearson"):
     """wcorr_matrix computes the weighted correlation statistic for
     (Pearson or Spearman) for continuous-continuous association.
     This is an symmetric coefficient: corr(x,y) = corr(y,x)
@@ -903,7 +903,7 @@ def wcorr_matrix(X, sample_weight=None, n_jobs=-1, handle_na="drop", method="pea
                 df=X,
                 comb_list=comb_list,
                 sample_weight=sample_weight,
-                n_jobs=-1,
+                n_jobs=1,
             )
             return lst
         else:
@@ -982,7 +982,7 @@ def association_series(
     num_num_assoc="pearson",
     nom_num_assoc="correlation_ratio",
     normalize=False,
-    n_jobs=-1,
+    n_jobs=1,
     handle_na="drop",
 ):
     """association_series computes the association matrix for cont-cont, cat-cont and cat-cat.
@@ -1162,7 +1162,7 @@ def association_matrix(
     nom_nom_assoc="theil",
     num_num_assoc="pearson",
     nom_num_assoc="correlation_ratio",
-    n_jobs=-1,
+    n_jobs=1,
     handle_na="drop",
     nom_nom_comb=None,
     num_num_comb=None,
@@ -1261,7 +1261,7 @@ def association_matrix(
 
 
 def _callable_association_series_fn(
-    assoc_fn, X, target, sample_weight=None, n_jobs=-1, kind="nom-nom"
+    assoc_fn, X, target, sample_weight=None, n_jobs=1, kind="nom-nom"
 ):
     """_callable_association_series_fn private function, utility for computing association series
     for a callable custom association
@@ -1363,7 +1363,7 @@ def _callable_association_series_fn(
 
 
 def _callable_association_matrix_fn(
-    assoc_fn, X, sample_weight=None, n_jobs=-1, kind="nom-nom", cols_comb=None
+    assoc_fn, X, sample_weight=None, n_jobs=1, kind="nom-nom", cols_comb=None
 ):
     """_callable_association_matrix_fn private function, utility for computing association matrix
     for a callable custom association
@@ -1527,7 +1527,7 @@ def f_cat_regression(x, y, sample_weight=None, as_frame=False):
         return f_oneway_weighted(*args)[0]
 
 
-def f_cat_regression_parallel(X, y, sample_weight=None, n_jobs=-1, handle_na="drop"):
+def f_cat_regression_parallel(X, y, sample_weight=None, n_jobs=1, handle_na="drop"):
     """f_cat_regression_parallel computes the weighted ANOVA F-value for the provided categorical predictors
     using parallelization of the code (continuous target, categorical predictor).
 
@@ -1581,7 +1581,7 @@ def f_cat_regression_parallel(X, y, sample_weight=None, n_jobs=-1, handle_na="dr
 
 
 def f_cont_regression_parallel(
-    X, y, sample_weight=None, n_jobs=-1, force_finite=True, handle_na="drop"
+    X, y, sample_weight=None, n_jobs=1, force_finite=True, handle_na="drop"
 ):
     """Univariate linear regression tests returning F-statistic.
     Quick linear model for testing the effect of a single regressor,
@@ -1660,7 +1660,7 @@ def f_cont_regression_parallel(
 
 
 def f_stat_regression_parallel(
-    X, y, sample_weight=None, n_jobs=-1, force_finite=True, handle_na="drop"
+    X, y, sample_weight=None, n_jobs=1, force_finite=True, handle_na="drop"
 ):
     """f_stat_regression_parallel computes the weighted explained variance for the provided categorical
     and numerical predictors using parallelization of the code.
@@ -1772,7 +1772,7 @@ def f_cont_classification(x, y, sample_weight=None, as_frame=False):
 
 
 def f_cont_classification_parallel(
-    X, y, sample_weight=None, n_jobs=-1, handle_na="drop"
+    X, y, sample_weight=None, n_jobs=1, handle_na="drop"
 ):
     """f_cont_classification_parallel computes the weighted ANOVA F-value
     for the provided categorical predictors using parallelization of the code.
@@ -1829,7 +1829,7 @@ def f_cat_classification_parallel(
     X,
     y,
     sample_weight=None,
-    n_jobs=-1,
+    n_jobs=1,
     force_finite=True,
     handle_na="drop",
 ):
@@ -1904,7 +1904,7 @@ def f_cat_classification_parallel(
 
 
 def f_stat_classification_parallel(
-    X, y, sample_weight=None, n_jobs=-1, force_finite=True, handle_na="drop"
+    X, y, sample_weight=None, n_jobs=1, force_finite=True, handle_na="drop"
 ):
     """f_stat_classification_parallel computes the weighted ANOVA F-value for the provided categorical
     and numerical predictors using parallelization of the code.
