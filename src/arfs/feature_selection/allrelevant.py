@@ -2225,7 +2225,7 @@ def _set_lgb_parameters(X, y, objective, rf=False, silent=True):
             print("GrootCV: classification with unbalance classes")
         if main_class > 0.8:
             param.update({"is_unbalance": True})
-    param.update({"num_threads": 0})
+    param.update({"num_threads": 1})
     return param
 
 
