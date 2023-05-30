@@ -2105,7 +2105,7 @@ def _reduce_vars_lgb_cv(X, y, objective, n_folds, cutoff, n_iter, silent, weight
     category_cols = dtypes_dic["cat"] + dtypes_dic["time"] + dtypes_dic["unk"]
     cat_idx = [X.columns.get_loc(col) for col in category_cols]
     if tscv:
-        rkf = TimeSeriesSplit(n_splits=n_folds)
+        rkf = TimeSeriesSplit(n_splits=n_folds, test_size=int(len(y) * 0.2))
     else: 
         rkf = RepeatedKFold(n_splits=n_folds, n_repeats=n_iter, random_state=2652124)
     iter = 0
