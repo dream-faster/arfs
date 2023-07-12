@@ -47,7 +47,7 @@ from __future__ import print_function, division
 import operator
 import warnings
 import time
-import shap
+from fasttreeshap import TreeExplainer
 import numpy as np
 import pandas as pd
 import lightgbm as lgb
@@ -1217,43 +1217,26 @@ def _get_shap_imp(estimator, X, y, sample_weight=None, cat_feature=None):
     )
 
     # Compute the SHAP values
-    if is_lightgbm(estimator):
-        # For LightGBM models use the built-in SHAP method
-        shap_matrix = model.predict(X_tt, pred_contrib=True)
+    # For other tree-based models, use the shap.TreeExplainer method to compute SHAP values
+    explainer = TreeExplainer(
+        model, feature_perturbation="tree_path_dependent"
+    )
+    shap_values = explainer.shap_values(X_tt)
 
-        # The shape of the shap_matrix depends on whether the estimator is a classifier or a regressor
-        if is_classifier(estimator) and (len(np.unique(y_tt)) > 2):
-            # For multi-class classifiers, reshape the shap_matrix
-            n_features = X_tt.shape[1]
-            shap_matrix = np.delete(
-                shap_matrix,
-                list(range(n_features, shap_matrix.shape[1], n_features + 1)),
-                axis=1,
-            )
-            shap_imp = np.mean(np.abs(shap_matrix), axis=0)
-        else:
-            shap_imp = np.mean(np.abs(shap_matrix[:, :-1]), axis=0)
-    else:
-        # For other tree-based models, use the shap.TreeExplainer method to compute SHAP values
-        explainer = shap.TreeExplainer(
-            model, feature_perturbation="tree_path_dependent"
-        )
-        shap_values = explainer.shap_values(X_tt)
-
-        # For multi-class classifiers, reshape the shap_values
-        if is_classifier(estimator):
-            if isinstance(shap_values, list):
-                # For LightGBM classifier in sklearn API, SHAP returns a list of arrays
-                # https://github.com/slundberg/shap/issues/526
-                class_inds = range(len(shap_values))
-                shap_imp = np.zeros(shap_values[0].shape[1])
-                for i, ind in enumerate(class_inds):
-                    shap_imp += np.abs(shap_values[ind]).mean(0)
-                shap_imp /= len(shap_values)
-            else:
-                shap_imp = np.abs(shap_values).mean(0)
+    # For multi-class classifiers, reshape the shap_values
+    if is_classifier(estimator):
+        if isinstance(shap_values, list):
+            # For LightGBM classifier in sklearn API, SHAP returns a list of arrays
+            # https://github.com/slundberg/shap/issues/526
+            class_inds = range(len(shap_values))
+            shap_imp = np.zeros(shap_values[0].shape[1])
+            for i, ind in enumerate(class_inds):
+                shap_imp += np.abs(shap_values[ind]).mean(0)
+            shap_imp /= len(shap_values)
         else:
             shap_imp = np.abs(shap_values).mean(0)
+    else:
+        shap_imp = np.abs(shap_values).mean(0)
 
     return shap_imp
 
